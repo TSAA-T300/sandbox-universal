@@ -1,0 +1,4 @@
+# gem 指令的預設參數（/etc/km-sandbox/env.sh 以 GEMRC 指到本檔）。
+# 系統的 gem 目錄（/var/lib/gems）在沙盒內唯讀，不加 --user-install 時 gem install 以權限錯誤失敗；加了就裝進家目錄，
+# ruby 不必另外設定就找得到。--no-document 不產生文件，安裝較快。gem 只把指令認得的參數帶給它，其他指令不受影響
+gem: --user-install --no-document

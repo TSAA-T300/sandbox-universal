@@ -1,0 +1,3 @@
+#!/bin/sh
+# 列出沙盒已安裝的語言、工具與套件版本，以及使用時的注意事項。清單在建置映像時依實際安裝的內容產生。
+exec cat /usr/share/doc/km-sandbox/TOOLS.md

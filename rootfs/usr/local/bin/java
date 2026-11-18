@@ -1,0 +1,8 @@
+#!/bin/sh
+# java 的包裝：依沙盒配額帶上可用處理器數與記憶體上限。
+# SANDBOX_THREADS、SANDBOX_MEMORY_LIMIT_BYTES 由 /etc/km-sandbox/env.sh 匯出；沒有載入設定檔時不加任何參數。
+# JVM 在沙盒內讀不到 cgroup，不設限會照主機的核心數與記憶體決定執行緒數與 heap 大小。
+# 不用 JAVA_TOOL_OPTIONS：它每次執行都會在 stderr 印一行提示。
+if [ -n "${SANDBOX_MEMORY_LIMIT_BYTES:-}" ]; then set -- "-XX:MaxRAM=${SANDBOX_MEMORY_LIMIT_BYTES}" "$@"; fi
+if [ -n "${SANDBOX_THREADS:-}" ]; then set -- "-XX:ActiveProcessorCount=${SANDBOX_THREADS}" "$@"; fi
+exec /usr/lib/jvm/java-21-openjdk-amd64/bin/java "$@"

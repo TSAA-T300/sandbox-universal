@@ -1,0 +1,4 @@
+#!/bin/sh
+# 讓不帶路徑的 pip 一律進 /sandbox/.venv（/usr/local/bin 在 PATH 中先於 /usr/bin），不依賴 OpenShell 是否沿用映像的 ENV。
+# 用包裝腳本而不是 symlink：symlink 會讓 venv 的判定失效。
+exec /sandbox/.venv/bin/pip "$@"

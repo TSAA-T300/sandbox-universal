@@ -1,0 +1,5 @@
+#!/bin/sh
+# javac 的包裝：理由同 java 的包裝；javac 要以 -J 前綴把參數交給 JVM。
+if [ -n "${SANDBOX_MEMORY_LIMIT_BYTES:-}" ]; then set -- "-J-XX:MaxRAM=${SANDBOX_MEMORY_LIMIT_BYTES}" "$@"; fi
+if [ -n "${SANDBOX_THREADS:-}" ]; then set -- "-J-XX:ActiveProcessorCount=${SANDBOX_THREADS}" "$@"; fi
+exec /usr/lib/jvm/java-21-openjdk-amd64/bin/javac "$@"

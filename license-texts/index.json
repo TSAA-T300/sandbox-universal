@@ -1,0 +1,46 @@
+{
+  "npm/@esbuild/linux-x64@0.28.2": {
+    "files": ["upstream/@esbuild/linux-x64@0.28.2/LICENSE.md"],
+    "note": "套件沒有附授權檔；全文取自上游 https://github.com/evanw/esbuild 的 tag v0.28.2（LICENSE.md）"
+  },
+  "npm/@img/sharp-libvips-linux-x64@1.3.4": {
+    "files": ["readme/@img/sharp-libvips-linux-x64@1.3.4/README-Licensing.md", "spdx-3.29.0/LGPL-3.0-or-later.txt"],
+    "note": "套件沒有附授權檔；內附的 libvips 等函式庫各自的授權列在套件 README.md 的「Licensing」一節。全文為該節，加上套件宣告的 LGPL-3.0-or-later（SPDX License List 3.29.0 的標準條文，含 LGPL-3.0 引用的 GPL-3.0 全文）；LGPL 以外的內附函式庫只列授權名稱，上游沒有提供各自的條文"
+  },
+  "npm/@npmcli/agent@4.0.2": {
+    "files": ["spdx-3.29.0/ISC.txt"],
+    "note": "套件與上游 repo（https://github.com/npm/agent）都沒有附授權檔；全文是 SPDX License List 3.29.0 的 ISC 標準條文，不是套件附的；版權人依套件 metadata 為 GitHub Inc."
+  },
+  "npm/@sigstore/verify@3.1.1": {
+    "files": ["upstream/@sigstore/verify@3.1.1/LICENSE"],
+    "note": "套件沒有附授權檔；全文取自上游 https://github.com/sigstore/sigstore-js 的 tag @sigstore/verify@3.1.1（LICENSE）"
+  },
+  "npm/https@1.0.0": {
+    "files": ["spdx-3.29.0/ISC.txt"],
+    "note": "佔位套件，只有 package.json，沒有授權檔也沒有上游 repo；全文是 SPDX License List 3.29.0 的 ISC 標準條文，不是套件附的；版權人依套件 metadata 為 hardus van der berg"
+  },
+  "npm/isarray@1.0.0": {
+    "files": ["readme/isarray@1.0.0/README-License.md"],
+    "note": "套件沒有附授權檔；條文寫在套件 README.md 的「License」一節（MIT），全文取自該節"
+  },
+  "npm/spdx-exceptions@2.5.0": {
+    "files": ["spdx-3.29.0/CC-BY-3.0.txt"],
+    "note": "套件與上游 repo（https://github.com/jslicense/spdx-exceptions.json）都沒有附授權檔；全文是 SPDX License List 3.29.0 的 CC-BY-3.0 標準條文，不是套件附的；版權人依套件 metadata 為 The Linux Foundation"
+  },
+  "pip/cobble@0.1.4": {
+    "files": ["spdx-3.29.0/BSD-2-Clause.txt"],
+    "note": "套件與上游 repo（https://github.com/mwilliamson/python-cobble）都沒有附授權檔，上游 README 寫明 2-Clause BSD；全文是 SPDX License List 3.29.0 的 BSD-2-Clause 標準條文，不是套件附的；版權人依套件 metadata 為 Michael Williamson"
+  },
+  "pip/flatbuffers@25.12.19": {
+    "files": ["upstream/flatbuffers@25.12.19/LICENSE"],
+    "note": "套件沒有附授權檔；全文取自上游 https://github.com/google/flatbuffers 的 tag v25.12.19（LICENSE）"
+  },
+  "pip/magika@1.0.3": {
+    "files": ["upstream/magika@1.0.3/LICENSE"],
+    "note": "套件沒有附授權檔；全文取自上游 https://github.com/google/magika 的 tag python-v1.0.3（LICENSE）"
+  },
+  "pip/markitdown@0.1.9": {
+    "files": ["upstream/markitdown@0.1.9/LICENSE"],
+    "note": "套件沒有附授權檔；全文取自上游 https://github.com/microsoft/markitdown 的 tag v0.1.9（LICENSE）"
+  }
+}

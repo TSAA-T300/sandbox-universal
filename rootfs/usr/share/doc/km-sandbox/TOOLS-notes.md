@@ -1,0 +1,22 @@
+## 注意事項
+
+- **套件安裝**：回傳的 `network_mode` 是 `off` 時不能連網，任何安裝都會失敗，只能用上面列出的內容。`on` 時能連哪些網站由站點的白名單決定，預設放行各語言的官方套件庫：`pip install`（PyPI）、`npm install`（npm）、R 的 `install.packages()`（CRAN）、`gem install`（RubyGems）、`cargo`（crates.io）；只有各自的工具連得到，例如不能用 curl 下載 npm 的套件；而且只准下載，上傳或發佈套件（`npm publish`、`gem push` 等）會被擋（HTTP 403）。Go 的模組不能下載（白名單沒有 Go 的模組代理，`GOPROXY` 設為 `off`）。站點的網路若對某個套件庫做 TLS 檢查（換過憑證），沙盒仍連不上它，這時照實回報即可。裝的套件隨沙盒刪除。安裝時要從原始碼編譯 C／C++ 的套件：Python 的可以（已有標頭檔）；R 與 Ruby 的裝不起來（要用 make，見「C／C++」），Node.js 的也裝不起來（要從 nodejs.org 下載標頭檔，不在白名單）。npm 已設為不重試，連不上時幾秒內就失敗。
+- **中文字型**：已安裝 Noto Sans CJK TC、Noto Serif CJK TC（繁體）、文泉驛微米黑、文泉驛正黑、文鼎明體。Office 文件或 HTML 沒有指定中文字型時，LibreOffice 轉檔與 Chromium 會用 Noto 的繁體字形；要固定字型就明確指定 `Noto Sans CJK TC`。
+- **時區**：本地時間是台灣時間（`TZ=Asia/Taipei`，+08:00），`date` 與各語言（含 PHP）取得的時間都是；需要 UTC 時在程式內指定。
+- **matplotlib**：預設就是無視窗後端與 Noto Sans CJK TC，直接 `savefig` 即可。
+- **reportlab**：中文要先註冊 TrueType 字型：`pdfmetrics.registerFont(TTFont('WenQuanYiMicroHei', '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', subfontIndex=0))`。
+- **LibreOffice**：`soffice --headless --convert-to pdf <檔案>`；也可轉成 docx、xlsx、pptx。第一次啟動約 2 秒。
+- **PDF 轉圖**：`pdftoppm -jpeg -r 150 in.pdf out`。ImageMagick 的 `convert` 不能直接讀 PDF（沒有 Ghostscript）。
+- **markitdown**：執行時 stderr 會有兩行 onnxruntime 找不到 GPU／NPU 的警告（`device discovery failed`），不影響結果，可以忽略。
+- **OCR**：`tesseract in.png stdout -l chi_tra+eng`；Python 用 `pytesseract`。
+- **Chromium**：只有無頭版。用 Playwright 的一般寫法即可（Python：`chromium.launch()`；Node.js：`chromium.launch()`），不需要額外的啟動參數；`headless=False` 不能用。
+- **LaTeX**：`xelatex` 搭配 `\usepackage{xeCJK}` 與 `\setCJKmainfont{Noto Serif CJK TC}`。pandoc 輸出 PDF：`pandoc in.md -o out.pdf --pdf-engine=xelatex -V CJKmainfont="Noto Serif CJK TC"`。
+- **Node.js**：預裝的套件（清單見上面）在任何目錄都能 `require` 或 `import`；它們裝在 `/opt/node-packages`，不是以 `npm install -g` 安裝，所以 `npm ls -g` 不會列出。要另外安裝套件時（`network_mode` 是 `on` 時），在 `/work` 底下建目錄（例如 `mkdir -p /work/app && cd /work/app`），先 `npm init -y` 再 `npm install`，程式也放在那個目錄執行，要交給使用者的產物寫到 `/working_dir`：工作目錄 `/working_dir` 跨輪保留、有容量上限，`node_modules` 不要裝在那裡。目錄裡沒有 `package.json` 時，npm 會把根目錄當成專案，以 `/node_modules` 的權限錯誤失敗。不要加 `-g`，全域目錄是唯讀的。TypeScript 用 `tsx file.ts` 直接執行，或 `tsc` 編譯；`tsc` 編譯用到 Node.js 內建模組（`fs`、`path`、`process` 等）的程式時要加 `--types node`（型別已預裝）。
+- **react-icons 的授權**：收錄的圖示集授權不同。預設使用 MIT／Apache 授權的圖示集，例如 Material Design（`react-icons/md`）、Bootstrap（`react-icons/bs`）、Heroicons（`react-icons/hi`、`react-icons/hi2`）。Font Awesome（`react-icons/fa`、`react-icons/fa6`）、IcoMoon Free（`react-icons/im`）、VS Code Icons（`react-icons/vsc`）是 CC BY 4.0，Game Icons（`react-icons/gi`）是 CC BY 3.0：用進要交給使用者的文件時，要在文件中標示圖示的出處。不要使用 Typicons（`react-icons/ti`，CC BY-SA 3.0，衍生作品也要以相同授權分享）。
+- **C／C++**：`make` 在沙盒內不能用：沙盒禁止更改程式身分的系統呼叫，make 執行每一行指令前都會這麼做，一律以 `Operation not permitted` 失敗。直接用 `gcc`／`g++` 編譯，或用 `cmake`（預設產生器已設為 Ninja）加 `cmake --build`；有 Makefile 的專案改成直接呼叫編譯器，或寫成 `CMakeLists.txt`。
+- **Java**：單一檔案可直接 `java Hello.java`；沒有 Maven、Gradle。heap 的上限預設約為記憶體上限的四分之一（上限 1 GiB 時約 250 MB），不夠時自行加 `-Xmx`，例如 `java -Xmx512m Hello`。
+- **Rust**：單支程式用 `rustc -O main.rs`，專案用 `cargo new`。預裝的只有標準函式庫；`network_mode` 是 `on` 時 cargo 可從 crates.io 下載相依。cargo 同時編譯的 crate 數已設為 `SANDBOX_THREADS`。1 核下 release 建置較慢（約 400 個函式的程式要 30 多秒），先用 debug 建置。編譯產生的 `target/` 算在工作目錄的容量內，只為了編譯的專案可以建在 `/work`。
+- **Go、R、Ruby、PHP**：預裝的只有標準函式庫與上面列出的套件。Go 只能用標準函式庫，`network_mode` 是 `on` 時也不能下載模組。`network_mode` 是 `on` 時：R 的 `install.packages()` 不必指定 `lib`，套件裝在 `/sandbox/R/library`；`gem install` 不必加參數，預設裝在家目錄（gem 附帶的指令不在 `PATH`，在 `$(ruby -e 'print Gem.user_dir')/bin`）。PHP 沒有 composer。
+- **影音**：沒有預裝 ffmpeg 等影音轉檔工具；需要處理影音時，照實說明缺少什麼。
+- **7z**：壓成 `.7z` 時預設會照主機的核心數開執行緒，檔案大時記憶體會不夠；請加 `-mmt=$SANDBOX_THREADS`。壓成 `.zip` 不受影響。
+- **行程數與 CPU 數**：沙盒的 CPU 上限是配額，`os.cpu_count()`、`multiprocessing.cpu_count()`、R 的 `parallel::detectCores()`、Node.js 的 `os.cpus()` 回傳的都是主機的 CPU 數（可能上百），不是這個沙盒能用的數量；`Pool()`、`ProcessPoolExecutor()` 不指定數量時也會照主機的 CPU 數開行程。行程數一律用環境變數 `SANDBOX_THREADS`，例如 Python `multiprocessing.Pool(int(os.environ['SANDBOX_THREADS']))`、R `parallel::mclapply(x, f, mc.cores = as.integer(Sys.getenv('SANDBOX_THREADS')))`。`multiprocessing`、`ProcessPoolExecutor` 可用；joblib 與 scikit-learn 的 `n_jobs=-1` 會自動用 `SANDBOX_THREADS` 個行程。
